@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="csc413-secondgame-Team26">
+  <ClassDiagramComponents>
+    <Class name="GameClock" package="gameCore" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="startTime" type="int" visibility="public"/>
+        <Field name="frame" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="tick" returnType="void" visibility="public"/>
+        <Method name="getFrame" returnType="int" visibility="public"/>
+        <Method name="getTime" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GameSounds" package="gameCore" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="sounds" type="GameSounds" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="jxp" type="javafx.embed.swing.JFXPanel" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="playLoop" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filename"/>
+        </Method>
+        <Method name="playClip" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filename"/>
+        </Method>
+        <Method name="play" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="filename"/>
+        </Method>
+        <Method name="rawplay" returnType="void" visibility="private" isStatic="true">
+          <Argument type="AudioFormat" name="targetFormat"/>
+          <Argument type="AudioInputStream" name="din"/>
+        </Method>
+        <Method name="getLine" returnType="SourceDataLine" visibility="private" isStatic="true">
+          <Argument type="AudioFormat" name="audioFormat"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Koala" package="gameCore" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="turningAngle" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Image" name="img"/>
+          <Argument type="int[]" name="controls"/>
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g"/>
+          <Argument type="ImageObserver" name="obs"/>
+        </Method>
+        <Method name="respawn" returnType="void" visibility="public"/>
+        <Method name="die" returnType="void" visibility="public"/>
+        <Method name="save" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="KoalaWorld" package="gameCore" visibility="public" isFinal="true" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="thread" type="Thread" visibility="private"/>
+        <Field name="game" type="KoalaWorld" visibility="private" isStatic="true" isFinal="true"/>
+        <Field name="sound" type="GameSounds" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="clock" type="GameClock" visibility="public" isStatic="true" isFinal="true"/>
+        <Field name="menu" type="GameMenu" visibility="package"/>
+        <Field name="reader" type="SourceReader" visibility="public"/>
+        <Field name="bimg" type="BufferedImage" visibility="private"/>
+        <Field name="speed" type="Point" visibility="package" isStatic="true"/>
+        <Field name="sizeX" type="int" visibility="package"/>
+        <Field name="background" type="ArrayList&lt;BackgroundObject&gt;" visibility="private"/>
+        <Field name="players" type="ArrayList&lt;PlayerShip&gt;" visibility="private"/>
+        <Field name="ui" type="ArrayList&lt;InterfaceObject&gt;" visibility="private"/>
+        <Field name="rocks" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="tnts" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="detonators" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="exits" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="springs" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="saws" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="switches" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="locks" type="ArrayList&lt;Ship&gt;" visibility="private"/>
+        <Field name="sprites" type="HashMap&lt;String, Image&gt;" visibility="public" isStatic="true"/>
+        <Field name="motions" type="HashMap&lt;String, MotionController&gt;" visibility="public" isStatic="true"/>
+        <Field name="gameOver" type="boolean" visibility="package"/>
+        <Field name="observer" type="ImageObserver" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getInstance" returnType="KoalaWorld" visibility="public" isStatic="true"/>
+        <Method name="init" returnType="void" visibility="public"/>
+        <Method name="loadSprites" returnType="void" visibility="private"/>
+        <Method name="getSprite" returnType="Image" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getFrameNumber" returnType="int" visibility="public"/>
+        <Method name="getTime" returnType="int" visibility="public"/>
+        <Method name="removeClockObserver" returnType="void" visibility="public">
+          <Argument type="Observer" name="theObject"/>
+        </Method>
+        <Method name="getBackgroundObjects" returnType="ListIterator&lt;BackgroundObject&gt;" visibility="public"/>
+        <Method name="getPlayers" returnType="ListIterator&lt;PlayerShip&gt;" visibility="public"/>
+        <Method name="getRocks" returnType="ListIterator&lt;Ship&gt;" visibility="public"/>
+        <Method name="countPlayers" returnType="int" visibility="public"/>
+        <Method name="setDimensions" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="getSpeed" returnType="Point" visibility="public" isStatic="true"/>
+        <Method name="setSpeed" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Point" name="speed"/>
+        </Method>
+        <Method name="addPlayer" returnType="void" visibility="public">
+          <Argument type="PlayerShip" name="newObjects"/>
+        </Method>
+        <Method name="addBackground" returnType="void" visibility="public">
+          <Argument type="BackgroundObject" name="newObjects"/>
+        </Method>
+        <Method name="addTNT" returnType="void" visibility="public">
+          <Argument type="Ship" name="tnt"/>
+        </Method>
+        <Method name="addDetonator" returnType="void" visibility="public">
+          <Argument type="Ship" name="detonator"/>
+        </Method>
+        <Method name="addExit" returnType="void" visibility="public">
+          <Argument type="Ship" name="exit"/>
+        </Method>
+        <Method name="addRock" returnType="void" visibility="public">
+          <Argument type="Ship" name="rock"/>
+        </Method>
+        <Method name="addSaw" returnType="void" visibility="public">
+          <Argument type="Ship" name="saw"/>
+        </Method>
+        <Method name="addSpring" returnType="void" visibility="public">
+          <Argument type="Ship" name="spring"/>
+        </Method>
+        <Method name="addLock" returnType="void" visibility="public">
+          <Argument type="Ship" name="lock"/>
+        </Method>
+        <Method name="addSwitch" returnType="void" visibility="public">
+          <Argument type="Ship" name="switches"/>
+        </Method>
+        <Method name="addClockObserver" returnType="void" visibility="public">
+          <Argument type="Observer" name="theObject"/>
+        </Method>
+        <Method name="drawFrame" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+          <Argument type="Graphics2D" name="g2"/>
+        </Method>
+        <Method name="loadLevel" returnType="void" visibility="public">
+          <Argument type="int" name="level"/>
+        </Method>
+        <Method name="endGame" returnType="void" visibility="public">
+          <Argument type="boolean" name="win"/>
+        </Method>
+        <Method name="isGameOver" returnType="boolean" visibility="public"/>
+        <Method name="isLevelFinished" returnType="boolean" visibility="public"/>
+        <Method name="endLevel" returnType="void" visibility="public"/>
+        <Method name="finishGame" returnType="void" visibility="public"/>
+        <Method name="isGameFinished" returnType="boolean" visibility="public"/>
+        <Method name="createGraphics2D" returnType="Graphics2D" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="paint" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+        <Method name="run" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="argv"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SourceReader" package="gameCore" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="w" type="int" visibility="package"/>
+        <Field name="position" type="Integer" visibility="package"/>
+        <Field name="filename" type="String" visibility="package"/>
+        <Field name="reader" type="BufferedReader" visibility="package"/>
+        <Field name="endgameDelay" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="level"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="read" returnType="void" visibility="public">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+        <Method name="getLevel" returnType="int" visibility="public"/>
+        <Method name="setLevel" returnType="void" visibility="public">
+          <Argument type="int" name="level"/>
+        </Method>
+        <Method name="load" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="AbstractGameModifier" package="modifiers" visibility="public" isAbstract="true" xPosition="1520.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="read" returnType="void" visibility="public" isAbstract="true">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="InputController" package="modifiers.motions" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="field" type="Field" visibility="package"/>
+        <Field name="action" type="Method" visibility="package"/>
+        <Field name="moveState" type="int" visibility="package"/>
+        <Field name="keys" type="int[]" visibility="package"/>
+        <Field name="player" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="PlayerShip" name="player"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="PlayerShip" name="player"/>
+          <Argument type="int[]" name="keys"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="PlayerShip" name="player"/>
+          <Argument type="int[]" name="keys"/>
+          <Argument type="Component" name="world"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="signalKeyPress" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="setMove" returnType="void" visibility="private">
+          <Argument type="String" name="direction"/>
+        </Method>
+        <Method name="setFire" returnType="void" visibility="private"/>
+        <Method name="unsetMove" returnType="void" visibility="private">
+          <Argument type="String" name="direction"/>
+        </Method>
+        <Method name="unsetFire" returnType="void" visibility="private"/>
+        <Method name="read" returnType="void" visibility="public">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+        <Method name="clearChanged" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="keyPressed" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="keyReleased" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="keyTyped" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MenuController" package="modifiers.motions" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Fields>
+        <Field name="listener" type="KeyListener" visibility="package"/>
+        <Field name="field" type="Field" visibility="package"/>
+        <Field name="action" type="Method" visibility="package"/>
+        <Field name="moveState" type="int" visibility="package"/>
+        <Field name="keys" type="int[]" visibility="package"/>
+        <Field name="player" type="boolean" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="GameMenu" name="menu"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="PlayerShip" name="player"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Observer" name="theObject"/>
+          <Argument type="int[]" name="keys"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="signalKeyPress" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="setMove" returnType="void" visibility="private">
+          <Argument type="String" name="direction"/>
+        </Method>
+        <Method name="setFire" returnType="void" visibility="private"/>
+        <Method name="read" returnType="void" visibility="public">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+        <Method name="clearChanged" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="keyPressed" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="keyReleased" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+        <Method name="keyTyped" returnType="void" visibility="public">
+          <Argument type="KeyEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MotionController" package="modifiers.motions" visibility="public" isAbstract="true" xPosition="20.0" yPosition="420.0">
+      <Fields>
+        <Field name="fireInterval" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="KoalaWorld" name="world"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="delete" returnType="void" visibility="public">
+          <Argument type="Observer" name="theObject"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="read" returnType="void" visibility="public">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="NullMotion" package="modifiers.motions" visibility="public" xPosition="320.0" yPosition="420.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SimpleMotion" package="modifiers.motions" visibility="public" xPosition="620.0" yPosition="420.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="read" returnType="void" visibility="public">
+          <Argument type="Object" name="theObject"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Background" package="myGames" visibility="public" xPosition="920.0" yPosition="420.0">
+      <Fields>
+        <Field name="move" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g"/>
+          <Argument type="ImageObserver" name="obs"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="BackgroundObject" package="myGames" visibility="public" xPosition="1220.0" yPosition="420.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="BigExplosion" package="myGames" visibility="public" xPosition="1520.0" yPosition="420.0">
+      <Fields>
+        <Field name="timer" type="int" visibility="package"/>
+        <Field name="frame" type="int" visibility="package"/>
+        <Field name="animation" type="Image" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="collision" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CollisionItem" package="myGames" visibility="public" xPosition="1820.0" yPosition="420.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Ship" name="theShip"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="int" name="health"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="die" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Detonator" package="myGames" visibility="public" xPosition="2120.0" yPosition="420.0">
+      <Fields>
+        <Field name="world" type="KoalaWorld" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Ship" name="theShip"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="int" name="health"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="dead" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Exit" package="myGames" visibility="public" xPosition="20.0" yPosition="820.0">
+      <Fields>
+        <Field name="world" type="KoalaWorld" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Ship" name="theShip"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="int" name="health"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="die" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GameObject" package="myGames" visibility="public" isAbstract="true" xPosition="320.0" yPosition="820.0">
+      <Fields>
+        <Field name="speed" type="Point" visibility="public"/>
+        <Field name="location" type="Rectangle" visibility="public"/>
+        <Field name="img" type="Image" visibility="public"/>
+        <Field name="height" type="int" visibility="public"/>
+        <Field name="observer" type="ImageObserver" visibility="public"/>
+        <Field name="show" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g"/>
+          <Argument type="ImageObserver" name="obs"/>
+        </Method>
+        <Method name="setImage" returnType="void" visibility="public">
+          <Argument type="Image" name="img"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="getX" returnType="int" visibility="public"/>
+        <Method name="getY" returnType="int" visibility="public"/>
+        <Method name="getSizeX" returnType="int" visibility="public"/>
+        <Method name="getSizeY" returnType="int" visibility="public"/>
+        <Method name="getSpeed" returnType="Point" visibility="public"/>
+        <Method name="setSpeed" returnType="void" visibility="public">
+          <Argument type="Point" name="speed"/>
+        </Method>
+        <Method name="setLocation" returnType="void" visibility="public">
+          <Argument type="Point" name="newLocation"/>
+        </Method>
+        <Method name="getLocation" returnType="Rectangle" visibility="public"/>
+        <Method name="getLocationPoint" returnType="Point" visibility="public"/>
+        <Method name="move" returnType="void" visibility="public">
+          <Argument type="int" name="dx"/>
+          <Argument type="int" name="dy"/>
+        </Method>
+        <Method name="move" returnType="void" visibility="public"/>
+        <Method name="collision" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="otherObject"/>
+        </Method>
+        <Method name="hide" returnType="void" visibility="public"/>
+        <Method name="show" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="IndestructibleWall" package="myGames" visibility="public" xPosition="620.0" yPosition="820.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="damage" returnType="void" visibility="public">
+          <Argument type="int" name="damage"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MoveableObject" package="myGames" visibility="public" xPosition="920.0" yPosition="820.0">
+      <Fields>
+        <Field name="strength" type="int" visibility="protected"/>
+        <Field name="motion" type="MotionController" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getStrength" returnType="int" visibility="public"/>
+        <Method name="setStrength" returnType="void" visibility="public">
+          <Argument type="int" name="strength"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="start" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="PlayerShip" package="myGames" visibility="public" xPosition="1220.0" yPosition="820.0">
+      <Fields>
+        <Field name="lives" type="int" visibility="public"/>
+        <Field name="saves" type="int" visibility="public"/>
+        <Field name="score" type="int" visibility="public"/>
+        <Field name="resetPoint" type="Point" visibility="public"/>
+        <Field name="respawnCounter" type="int" visibility="public"/>
+        <Field name="lastFired" type="int" visibility="public"/>
+        <Field name="isFiring" type="boolean" visibility="public"/>
+        <Field name="left" type="int" visibility="public"/>
+        <Field name="name" type="String" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="Image" name="img"/>
+          <Argument type="int[]" name="controls"/>
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g"/>
+          <Argument type="ImageObserver" name="observer"/>
+        </Method>
+        <Method name="damage" returnType="void" visibility="public">
+          <Argument type="int" name="damageDone"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="startFiring" returnType="void" visibility="public"/>
+        <Method name="stopFiring" returnType="void" visibility="public"/>
+        <Method name="fire" returnType="void" visibility="public"/>
+        <Method name="die" returnType="void" visibility="public"/>
+        <Method name="save" returnType="void" visibility="public"/>
+        <Method name="reset" returnType="void" visibility="public"/>
+        <Method name="getLives" returnType="int" visibility="public"/>
+        <Method name="getSaves" returnType="int" visibility="public"/>
+        <Method name="getScore" returnType="int" visibility="public"/>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="incrementSaves" returnType="void" visibility="public">
+          <Argument type="int" name="save"/>
+        </Method>
+        <Method name="incrementScore" returnType="void" visibility="public">
+          <Argument type="int" name="increment"/>
+        </Method>
+        <Method name="isDead" returnType="boolean" visibility="public"/>
+        <Method name="isSaves" returnType="boolean" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Rock" package="myGames" visibility="public" xPosition="1520.0" yPosition="820.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="damage" returnType="void" visibility="public">
+          <Argument type="int" name="damage"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Saw" package="myGames" visibility="public" xPosition="1820.0" yPosition="820.0">
+      <Fields>
+        <Field name="world" type="KoalaWorld" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Ship" name="theShip"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="int" name="health"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="dead" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Ship" package="myGames" visibility="public" xPosition="2120.0" yPosition="820.0">
+      <Fields>
+        <Field name="world" type="KoalaWorld" visibility="package"/>
+        <Field name="health" type="int" visibility="protected"/>
+        <Field name="gunLocation" type="Point" visibility="protected"/>
+        <Field name="resetPoint" type="Point" visibility="public"/>
+        <Field name="respawnCounter" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="int" name="strength"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="Point" name="speed"/>
+          <Argument type="int" name="strength"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="damage" returnType="void" visibility="public">
+          <Argument type="int" name="damageDone"/>
+        </Method>
+        <Method name="detonate" returnType="void" visibility="public"/>
+        <Method name="die" returnType="void" visibility="public"/>
+        <Method name="save" returnType="void" visibility="public"/>
+        <Method name="respawn" returnType="void" visibility="public"/>
+        <Method name="collide" returnType="void" visibility="public">
+          <Argument type="GameObject" name="otherObject"/>
+        </Method>
+        <Method name="setHealth" returnType="void" visibility="public">
+          <Argument type="int" name="health"/>
+        </Method>
+        <Method name="getHealth" returnType="int" visibility="public"/>
+        <Method name="getMotion" returnType="MotionController" visibility="public"/>
+        <Method name="setMotion" returnType="void" visibility="public">
+          <Argument type="MotionController" name="motion"/>
+        </Method>
+        <Method name="getGunLocation" returnType="Point" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SmallExplosion" package="myGames" visibility="public" xPosition="20.0" yPosition="1220.0">
+      <Fields>
+        <Field name="timer" type="int" visibility="package"/>
+        <Field name="frame" type="int" visibility="package"/>
+        <Field name="animation" type="Image" visibility="package" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="int" name="w"/>
+          <Argument type="int" name="h"/>
+        </Method>
+        <Method name="collision" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="TNT" package="myGames" visibility="public" xPosition="320.0" yPosition="1220.0">
+      <Fields>
+        <Field name="respawnCounter" type="int" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Ship" name="theShip"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Point" name="location"/>
+          <Argument type="int" name="health"/>
+          <Argument type="Image" name="img"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="collision" returnType="boolean" visibility="public">
+          <Argument type="GameObject" name="obj"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="die" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="GameMenu" package="ui" visibility="public" xPosition="620.0" yPosition="1220.0">
+      <Fields>
+        <Field name="selection" type="int" visibility="package"/>
+        <Field name="controller" type="MenuController" visibility="package"/>
+        <Field name="waiting" type="boolean" visibility="package"/>
+        <Field name="world" type="KoalaWorld" visibility="package"/>
+        <Field name="g2" type="Graphics" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g2"/>
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="down" returnType="void" visibility="public"/>
+        <Method name="up" returnType="void" visibility="public"/>
+        <Method name="applySelection" returnType="void" visibility="public"/>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+        <Method name="isWaiting" returnType="boolean" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="InfoBar" package="ui" visibility="public" xPosition="920.0" yPosition="1220.0">
+      <Fields>
+        <Field name="player" type="PlayerShip" visibility="package"/>
+        <Field name="name" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="PlayerShip" name="player"/>
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public">
+          <Argument type="Graphics" name="g2"/>
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="InterfaceObject" package="ui" visibility="public" isAbstract="true" xPosition="1220.0" yPosition="1220.0">
+      <Fields>
+        <Field name="location" type="Point" visibility="package"/>
+        <Field name="observer" type="ImageObserver" visibility="package"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="draw" returnType="void" visibility="public" isAbstract="true">
+          <Argument type="Graphics" name="g"/>
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="Observable" name="o"/>
+          <Argument type="Object" name="arg"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="controller" source="ui.GameMenu" target="modifiers.motions.MenuController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="menu" source="gameCore.KoalaWorld" target="ui.GameMenu" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="world" source="myGames.Exit" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="myGames.BigExplosion" target="myGames.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="saws" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <IsRelation name="is" source="modifiers.motions.InputController" target="modifiers.motions.MotionController"/>
+    <IsRelation name="is" source="gameCore.SourceReader" target="modifiers.AbstractGameModifier"/>
+    <IsRelation name="is" source="myGames.IndestructibleWall" target="myGames.BackgroundObject"/>
+    <HasRelation name="springs" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <HasRelation name="world" source="myGames.Saw" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="myGames.Saw" target="myGames.Ship"/>
+    <HasRelation name="background" source="gameCore.KoalaWorld" target="myGames.BackgroundObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;BackgroundObject&gt;"/>
+    <IsRelation name="is" source="modifiers.motions.NullMotion" target="modifiers.motions.MotionController"/>
+    <HasRelation name="clock" source="gameCore.KoalaWorld" target="gameCore.GameClock" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="gameCore.KoalaWorld" target="gameCore.KoalaWorld" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="ui" source="gameCore.KoalaWorld" target="ui.InterfaceObject" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;InterfaceObject&gt;"/>
+    <IsRelation name="is" source="myGames.Exit" target="myGames.Ship"/>
+    <IsRelation name="is" source="myGames.BackgroundObject" target="myGames.GameObject"/>
+    <IsRelation name="is" source="myGames.BigExplosion" target="myGames.BackgroundObject"/>
+    <HasRelation name="reader" source="gameCore.KoalaWorld" target="gameCore.SourceReader" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="players" source="gameCore.KoalaWorld" target="myGames.PlayerShip" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;PlayerShip&gt;"/>
+    <HasRelation name="world" source="myGames.Detonator" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="myGames.MoveableObject" target="myGames.GameObject"/>
+    <HasRelation name="world" source="ui.GameMenu" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="gameCore.KoalaWorld" target="myGames.Ship" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="gameCore.KoalaWorld" target="myGames.BackgroundObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="modifiers.motions.SimpleMotion" target="modifiers.motions.MotionController"/>
+    <IsRelation name="is" source="ui.InfoBar" target="ui.InterfaceObject"/>
+    <IsRelation name="is" source="gameCore.Koala" target="myGames.PlayerShip"/>
+    <IsRelation name="is" source="ui.GameMenu" target="ui.InterfaceObject"/>
+    <HasRelation name="sound" source="gameCore.KoalaWorld" target="gameCore.GameSounds" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="myGames.Ship" target="myGames.MoveableObject"/>
+    <HasRelation name="detonators" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <IsRelation name="is" source="myGames.Rock" target="myGames.BackgroundObject"/>
+    <IsRelation name="is" source="myGames.SmallExplosion" target="myGames.BackgroundObject"/>
+    <UseRelation source="myGames.GameObject" target="myGames.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="myGames.TNT" target="myGames.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="modifiers.motions.MenuController" target="modifiers.motions.MotionController"/>
+    <HasRelation name="motions" source="gameCore.KoalaWorld" target="modifiers.motions.MotionController" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="HashMap&lt;String, MotionController&gt;"/>
+    <IsRelation name="is" source="myGames.Background" target="myGames.BackgroundObject"/>
+    <HasRelation name="game" source="gameCore.KoalaWorld" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="rocks" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <HasRelation name="motion" source="myGames.MoveableObject" target="modifiers.motions.MotionController" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="tnts" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <HasRelation name="locks" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <UseRelation source="myGames.SmallExplosion" target="myGames.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="myGames.CollisionItem" target="myGames.Ship"/>
+    <IsRelation name="is" source="myGames.Detonator" target="myGames.Ship"/>
+    <IsRelation name="is" source="modifiers.motions.MotionController" target="modifiers.AbstractGameModifier"/>
+    <UseRelation source="myGames.Ship" target="myGames.GameObject" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="exits" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <IsRelation name="is" source="myGames.TNT" target="myGames.Ship"/>
+    <HasRelation name="sounds" source="gameCore.GameSounds" target="gameCore.GameSounds" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="player" source="ui.InfoBar" target="myGames.PlayerShip" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="myGames.Ship" target="modifiers.motions.MotionController" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="world" source="myGames.Ship" target="gameCore.KoalaWorld" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="switches" source="gameCore.KoalaWorld" target="myGames.Ship" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Ship&gt;"/>
+    <IsRelation name="is" source="myGames.PlayerShip" target="myGames.Ship"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
